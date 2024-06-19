@@ -1,17 +1,19 @@
-# Stage 1: Build the application
-FROM maven:3.9.7-sapmachine-22 AS build
-WORKDIR /app
-COPY pom.xml .
-RUN mvn dependency:go-offline -B
-COPY src ./src
-RUN mvn package -DskipTests
-RUN echo "done"
+## Stage 1: Build the application
+#FROM maven:3.9.7-sapmachine-22 AS build
+#WORKDIR /app
+#COPY pom.xml .
+#COPY ~/.m2 /root/.m2
+#RUN mvn dependency:go-offline -B
+#COPY src ./src
+#RUN mvn package -DskipTests
+#RUN echo "done"
 
 # Stage 2: Run the application
 FROM openjdk:22-slim
 WORKDIR /app
-LABEL maintainer="foo@mail.com"
+LABEL maintainer="adeputrans@gmail.com"
 LABEL company="hehe"
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 3000
+COPY ./target/*.jar app.jar
+EXPOSE ${APP_PORT}
+EXPOSE ${APP_GRPC_PORT}
 ENTRYPOINT ["java","-jar","app.jar"]
