@@ -24,10 +24,13 @@ public class ExchangeGrpcServer extends CurrencyExchangeGrpc.CurrencyExchangeImp
 
     @Override
     public void getExchangeAmount(final ExchangeRequest req, final StreamObserver<ExchangeResponse> responseObserver) {
-        log.info("Received exchange request: " + req.toString());
-        var pair = req.getPair().split("/");
+        log.info("Received exchange request Pair: " + req.getPair());
+        log.info("Received exchange request Date: " + req.getDate());
+        log.info("Received exchange request Amount: " + req.getAmount());
+        var pair = req.getPair().toLowerCase().split("/");
         LocalDate date = LocalDate.parse(req.getDate());
-        var result = exchangeService.convertCurrency(pair[0], pair[1], req.getAmount(), date);
+        double amount = Double.parseDouble(req.getAmount());
+        var result = exchangeService.convertCurrency(pair[0], pair[1], amount, date);
         final ExchangeResponse resp = ExchangeResponse.newBuilder().setExchangedAmount(result).build();
         responseObserver.onNext(resp);
         responseObserver.onCompleted();
