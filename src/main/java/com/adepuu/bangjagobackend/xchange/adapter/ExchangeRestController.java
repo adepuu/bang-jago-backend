@@ -1,4 +1,4 @@
-package com.adepuu.bangjagobackend.xchange;
+package com.adepuu.bangjagobackend.xchange.adapter;
 
 import com.adepuu.bangjagobackend.response.Response;
 import com.adepuu.bangjagobackend.xchange.dto.CurrencyExchangeRequestDto;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/exchange")
-public class ExchangeController {
+public class ExchangeRestController {
     private final CurrencyExchangeService exchangeService;
 
-    public ExchangeController(CurrencyExchangeService exchangeService) {
+    public ExchangeRestController(CurrencyExchangeService exchangeService) {
         this.exchangeService = exchangeService;
     }
 
